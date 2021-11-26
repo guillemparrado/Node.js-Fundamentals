@@ -159,9 +159,9 @@ function demo() {
 // SEGONA PART: Incorporo la funcionalitat de fitxers i d'async/await i resolc els punts de l'enunciat
 
 const crypto = require('crypto');
-exercicis();
+exercicisNivell3();
 
-async function exercicis(){
+async function exercicisNivell3(){
 
     // Comú a tots els exercicis + un sol punt de modificació (per si se'n volen posar més o treure'n)
     const encodings = Object.freeze(['hex', 'base64']);
@@ -215,9 +215,7 @@ async function ex3(filename, encodings, password, iv, algorithm = 'aes-192-cbc')
         const data = (await readFromFile(`${filename}.${encoding}.${algorithm}`, encoding)).toString();
         const decrypted = Buffer.concat([decipher.update(data, encoding), decipher.final()]).toString();
         const uncompressed = Buffer.from(decrypted,encoding).toString();
-        await writeToFile(uncompressed, `${filename}.${encoding}.uncompressed`);
+        await writeToFile(uncompressed, `${filename}.${encoding}.${algorithm}.decrypted_uncompressed`);
     }
 }
-
-// EXERCICI 3.4: Inclou un README amb instruccions per a l'execució de cada part
 
