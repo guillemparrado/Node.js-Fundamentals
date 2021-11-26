@@ -1,6 +1,10 @@
 # Webstorm
 .idea
 
+# Project
+fileTest*
+demo*
+
 # Logs
 logs
 *.log

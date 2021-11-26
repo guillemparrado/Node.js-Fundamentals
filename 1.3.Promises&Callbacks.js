@@ -99,9 +99,37 @@ getEmployee(4).then(res => console.log(res))
 
 //NIVELL 2.2
 
+const getSalary = (employee) => {
+    return new Promise((resolve, reject) => {
+        let salaryObj = salaries.find(salary => salary.id == employee.id);
+        if(salaryObj !== undefined){
+            resolve(salaryObj.salary);
+        }
+        else{
+            reject(new Error(`Salary with id == ${employee.id} doesn't exist`));
+        }
+    });
+}
+
 
 //NIVELL 2.3
 
 
+const id = 1;
+
+getEmployee(id)
+    .then(res => {
+        let employee = res;
+        getSalary(employee)
+            .then(res => {
+                console.log(`The salary of the employee "${employee.name}" is $${res}`);
+            })
+            .catch(e => console.log(`Error: ${e.message}`));
+    })
+    .catch(e => console.log(`Error: ${e.message}`))
+
+
+
 //NIVELL 3
 
+// Implementat als apartats anteriors
