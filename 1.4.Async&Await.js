@@ -1,27 +1,9 @@
 
 // NIVELL 1.1
 
-let employees = [{
-    id: 1,
-    name: 'Linux Torvalds'
-}, {
-    id: 2,
-    name: 'Bill Gates'
-},{
-    id: 3,
-    name: 'Jeff Bezos'
-}];
+const fs = require('fs');
 
-let salaries = [{
-    id: 1,
-    salary: 4000
-}, {
-    id: 2,
-    salary: 1000
-}, {
-    id: 3,
-    salary: 2000
-}];
+const {employees, salaries } = JSON.parse(String(fs.readFileSync(`./employeesAndSalaries.json`)));
 
 const getEmployee = (id) => {
     return new Promise((resolve, reject) => {
@@ -64,7 +46,7 @@ for (let id = 1; id < 4 ; id++) {
 }
 
 
-// NIVELL 2
+// NIVELL 2.1
 
 const wait2Seconds = () =>
     new Promise((res, rej) => {
@@ -72,21 +54,32 @@ const wait2Seconds = () =>
     }
 );
 
-async function wait2SecondsAndPrint(){
+function wait2SecondsAndPrint(){
+    return new Promise((resolve, reject) => {
+        try {
+            wait2Seconds().then(res => {
+                console.log(`Hello after 2 seconds!`);
+                resolve();
+            });
+
+        } catch (e) {
+            // La meva funció wait2Seconds no llença errors generats en el seu reject, però no se si Promise o setTimeout en poden llençar de per si mateixos, (en cas que no, potser no caldria el try-catch a wait2SecondsAndPrint).
+            reject(e);
+        }
+    });
+}
+
+
+async function executeWait2SecondsAndPrint(){
     try {
-        await wait2Seconds();
-        console.log("Hello after 2 seconds!");
+        await wait2SecondsAndPrint();
     } catch (e) {
-        // La meva funció wait2Seconds no llença errors generats en el seu reject, però no se si Promise o setTimeout en poden llençar de per si mateixos, (en cas que no, potser no caldria el try-catch a wait2SecondsAndPrint).
         console.log(`Error: ${e.message}`);
     }
 }
 
-wait2SecondsAndPrint();
 
-
-// NIVELL 3
-
-// Implementat als nivells 1 i 2
-
+module.exports = {
+    getEmployee, getSalary, wait2SecondsAndPrint
+}
 
