@@ -37,15 +37,19 @@ const getEmployee = (id) => {
 
 const getSalary = (employee) => {
     return new Promise((resolve, reject) => {
-        let salaryObj = salaries.find(salary => salary.id == employee.id);
-        if(salaryObj !== undefined){
-            resolve(salaryObj.salary);
+        if(!employee
+            || !employee.hasOwnProperty('id')
+            || typeof employee.id !== 'number'){
+            reject(new Error("You must pass a valid employee to the function getSalary(employee)"));
         }
-        else{
+        let salaryObj = salaries.find(salary => salary.id == employee.id);
+        if(salaryObj === undefined){
             reject(new Error(`Salary with id == ${employee.id} doesn't exist`));
         }
+        resolve(salaryObj.salary);
     });
 }
+
 
 // NIVELL 1.2
 
@@ -67,8 +71,12 @@ for (let id = 1; id < 4 ; id++) {
 // NIVELL 2
 
 const wait2Seconds = () =>
-    new Promise((res, rej) => {
-        setTimeout(res,2000);
+    new Promise(async (resolve, reject) => {
+        try {
+            setTimeout(resolve, 2000);
+        } catch (e) {
+            reject(e);
+        }
     }
 );
 
@@ -77,16 +85,10 @@ async function wait2SecondsAndPrint(){
         await wait2Seconds();
         console.log("Hello after 2 seconds!");
     } catch (e) {
-        // La meva funció wait2Seconds no llença errors generats en el seu reject, però no se si Promise o setTimeout en poden llençar de per si mateixos, (en cas que no, potser no caldria el try-catch a wait2SecondsAndPrint).
         console.log(`Error: ${e.message}`);
     }
 }
 
 wait2SecondsAndPrint();
-
-
-// NIVELL 3
-
-// Implementat als nivells 1 i 2
 
 
