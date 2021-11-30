@@ -210,7 +210,7 @@ test(`Errors tasca 1.4`, async () => {
         expect(e.message).toEqual(`Employee with id == 4 doesn't exist`);
     })
     // Opció 2:
-    await expect(src4.getSalary(null)).rejects.toEqual(new TypeError(`Cannot read property 'id' of null`));
+    await expect(src4.getSalary(null)).rejects.toEqual(new Error(`You must pass a valid employee to the function getSalary(employee)`));
     const employee = src4.getEmployee(1);
     employee.id = 4;
     await expect(src4.getSalary(employee)).rejects.toEqual(new Error(`Salary with id == 4 doesn't exist`));

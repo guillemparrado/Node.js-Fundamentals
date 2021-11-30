@@ -11,7 +11,7 @@ const spam = message => {
     )
 }
 
-spam("Hola!");
+spam("Spam");
 
 //NIVELL 1.2
 
@@ -54,7 +54,6 @@ async function readFromFileAndPrint(filename) {
     }
 }
 
-filename = './fileTest.txt'; // No ha de donar error
 readFromFileAndPrint(filename);
 
 
@@ -79,7 +78,7 @@ const compress = filename => {
     });
 }
 
-// Nota: el fitxer comprimit pesa més que l'original perquè l'original només pesa 16 bytes. He provat a silenciar el write i enganxar 10 paràgrafs de lorem ipsum al fitxer (https://loremipsum.io/generator/?n=10&t=p) i en comprimir passa de 8 a 3 kB.
+// Nota: el fitxer comprimit pesa més que l'original però és perquè l'original només pesa 16 bytes. He provat amb un fitxer de 10 paràgrafs de lorem ipsum (https://loremipsum.io/generator/?n=10&t=p) i queda comprimit de 8 a 3 kB.
 compress(filename);
 
 
@@ -94,7 +93,7 @@ const printUserHomeContents = () => {
             console.log(`Error : ${err.message}`);
         } else if(stderr) {
             console.log(`Error : ${stderr}`);
-        } else { // stdout només m'interessa si dir treu stderr, es podria treure els dos si calgués
+        } else { // stdout només m'interessa si dir no dona error (== no treu stderr), es podrien treure els dos si calgués movent el log d'stdout al cos de l'if d'stderr
             console.log(stdout);
         }
     });
@@ -111,7 +110,7 @@ printUserHomeContents();
     https://nodeblogger.com/aes-encryption-decryption-in-node-js/
  */
 
-// PRIMERA PART: L'exercici té moltes parts: file, async, compress (buffers), crypto amb AES (cal generar clau, cal passar IV d'alguna manera per desencriptar, etc.). Després de molt spaguetti he acabat fent demo amb part de compress / encrypt / decrypt / decompress, tot en memòria per depurar aquesta part primer. El mètode depurat s'inclou a la següent demo:
+// PRIMERA PART: L'exercici té moltes parts: file, async, encode (buffers), crypto amb AES (cal generar clau, cal passar IV d'alguna manera per desencriptar...). Després de molt spaguetti code he acabat fent demo amb workflow d'encode -> encrypt -> decrypt -> decode, tot en memòria per depurar aquesta part primer. El resultat és la següent demo:
 
 demo();
 
@@ -126,11 +125,11 @@ function demo() {
         let data = {};
         data.text = "Hello from Node!";
         data.encoding = encoding;
-        data.compressed = Buffer.from(data.text).toString(encoding);
-        data.encrypted = encryptText(data.compressed);
+        data.encoded = Buffer.from(data.text).toString(encoding);
+        data.encrypted = encryptText(data.encoded);
         data.decrypted = decryptText(data.encrypted, encoding);
-        data.uncompressed = Buffer.from(data.decrypted,encoding).toString();
-        console.log(`Demo Nivell 3, Data:`);
+        data.decoded = Buffer.from(data.decrypted,encoding).toString();
+        console.log(`Data Demo Nivell 3:`);
         console.log(data);
     }
 
@@ -159,19 +158,18 @@ function demo() {
 // SEGONA PART: Incorporo la funcionalitat de fitxers i d'async/await i resolc els punts de l'enunciat
 
 const crypto = require('crypto');
-exercicisNivell3();
+exercicisNivell3("5nrjpwp1fgno34p3423pnf");  // Password inventat, podeu posar el que volgueu
 
-async function exercicisNivell3(){
-
-    // Comú a tots els exercicis + un sol punt de modificació (per si se'n volen posar més o treure'n)
-    const encodings = Object.freeze(['hex', 'base64']);
-    // Recupero el filename dels exercicis anteriors, però si cal es pot canviar:
+async function exercicisNivell3(
+    password,
+    encodings = Object.freeze(['hex', 'base64'])){
+    // Recupero el filename dels exercicis anteriors, però si cal es podria canviar aquí:
     // const filename = ;
-    const password = "password_fgno34p3423pnf";  // A personalitzar per l'usuari
 
     // Faig servir awaits: cal que un exercici acabi perquè els arxius s'hagin acabat d'escriure i estiguin disponibles abans que comenci el següent
     await ex1(filename, encodings);
-    const iv = await ex2(filename, encodings, password); // Cal l'iv per desencriptar: cal guardar-lo en algun lloc a més del password. Diria que és com el seed d'un random generator, caldria guardar-lo amb el password o potser en el mateix file amb el text encriptat (per exemple a la demo, encryptText retorna un objecte amb el resultat i l'IV, potser es podria guardar tot l'objecte en comptes de només el text encriptat). De moment el passo entre crides, es podria millorar guardant-lo on calgui un cop se sàpiga què s'ha de fer exactament amb ell.
+    // Cal l'iv per desencriptar: cal guardar-lo en algun lloc a més del password. Diria que és un seed com el que podríem fer servir en un random generator, caldria guardar-lo amb el password o potser en el mateix file amb el text encriptat (per exemple a la demo, encryptText retorna un objecte amb el resultat i l'IV, potser es podria guardar tot l'objecte en comptes de només el text encriptat). Per això el passo entre crides, però es podria millorar guardant-lo on calgués un cop se sàpiga què s'ha de fer amb ell.
+    const iv = await ex2(filename, encodings, password);
     await ex3(filename, encodings, password, iv);
 }
 
@@ -180,25 +178,26 @@ async function exercicisNivell3(){
 async function ex1(filename, encodings) {
     for (const encoding of encodings) {
         const data = (await readFromFile(filename)).toString();
-        const compressed = Buffer.from(data).toString(encoding);
-        await writeToFile(compressed, `${filename}.${encoding}`);
+        const encodedData = Buffer.from(data).toString(encoding);
+        await writeToFile(encodedData, `${filename}.${encoding}`);
     }
 }
 
 // EXERCICI 3.2: Crea una funció que guardi els fitxers del punt anterior, ara encriptats amb l'algorisme aes-192-cbc, i esborri els fitxers inicials
 
-async function ex2(filename, encodings, password, algorithm = 'aes-192-cbc') {
+async function ex2(filename, encodings, password) {
     const crypto = require('crypto');
-    // Cal fer una clau a partir del password. Les claus de 192 son de 24 caràcters, les de 256 son de 32
+    // Cal fer una clau a partir del password. Les claus d'AES-192 son de 24 caràcters, les d'AES-256 son de 32. Per això, especifico l'algorisme com a constant i no com a paràmentre, perquè sinó caldria adaptar també la crida de generació de la clau per cada algorisme possible que s'acceptés i llençar error en rebre un algorisme que no figuri entre les opcions.
+    const algorithm = 'aes-192-cbc';
     const key = crypto.scryptSync(password, 'salt', 24);
     // Cal fer un IV
     const iv = crypto.randomBytes(16);
 
     for (const encoding of encodings) {
         const cipher = crypto.createCipheriv(algorithm, key, iv);
-        const data = (await readFromFile(`${filename}.${encoding}`)).toString();
-        const encrypted = Buffer.concat([cipher.update(data), cipher.final()]);
-        await writeToFile(encrypted, `${filename}.${encoding}.${algorithm}`, encoding);
+        const encodedData = (await readFromFile(`${filename}.${encoding}`)).toString();
+        const encryptedData = Buffer.concat([cipher.update(encodedData), cipher.final()]);
+        await writeToFile(encryptedData, `${filename}.${encoding}.${algorithm}`, encoding);
         // Elimina file original
         fs.unlinkSync(`${filename}.${encoding}`);
     }
@@ -212,10 +211,10 @@ async function ex3(filename, encodings, password, iv, algorithm = 'aes-192-cbc')
     const key = crypto.scryptSync(password, 'salt', 24);  // Les claus de 192 son de 24 caràcters, les de 256 son de 32
     for (const encoding of encodings) {
         const decipher = crypto.createDecipheriv(algorithm, key, iv);
-        const data = (await readFromFile(`${filename}.${encoding}.${algorithm}`, encoding)).toString();
-        const decrypted = Buffer.concat([decipher.update(data, encoding), decipher.final()]).toString();
-        const uncompressed = Buffer.from(decrypted,encoding).toString();
-        await writeToFile(uncompressed, `${filename}.${encoding}.${algorithm}.decrypted_uncompressed`);
+        const encryptedData = (await readFromFile(`${filename}.${encoding}.${algorithm}`, encoding)).toString();
+        const decryptedEncodedData = Buffer.concat([decipher.update(encryptedData, encoding), decipher.final()]).toString();
+        const decryptedDecodedData = Buffer.from(decryptedEncodedData,encoding).toString();
+        await writeToFile(decryptedDecodedData, `${filename}.${encoding}.${algorithm}.decrypted_decoded`);
     }
 }
 

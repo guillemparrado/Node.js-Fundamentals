@@ -1,25 +1,22 @@
 
 //NIVELL 1.1
 
-let promise;
-let promiseIsResolved;
 function makePromise(){
     return new Promise((resolve, reject) => {
         if(promiseIsResolved)   resolve("Ex 1.1. Promise Resolved.");
-        else                    reject(new Error('Ex 1.1. Promise rejected.'));
+        else                    reject(new Error('Ex 1.1. Promise Rejected.'));
     });
 }
 
 function makeAndCallPromise(){
-    promise = makePromise();
+    const promise = makePromise();
     promise
         .then(res => console.log(res))
         .catch(err => console.log(err.message));
 }
 
-
 // Resolved promise
-promiseIsResolved = true;
+let promiseIsResolved = true;
 makeAndCallPromise();
 
 // Rejected promise
@@ -51,6 +48,12 @@ for (const pregunta of preguntes) {
         console.log(`Error: ${e.message}`)
     }
 }
+
+// També es podria passar una funció anònima en comptes de console.log si calgués fer més coses:
+// arrowFunc(pregunta, (missatge) => {
+//      ...
+//      console.log(missatge);
+// });
 
 
 //NIVELL 2.1
@@ -128,8 +131,3 @@ getEmployee(id)
     })
     .catch(e => console.log(`Error: ${e.message}`))
 
-
-
-//NIVELL 3
-
-// Implementat als apartats anteriors
