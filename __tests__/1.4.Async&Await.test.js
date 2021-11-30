@@ -34,7 +34,7 @@ const {getEmployee, getSalary, wait2SecondsAndPrint} = require('../app/1.4.Async
 
 // TASCA 6 NIVELL 1
 
-describe(`Async / await Nivell 1 - Exercici 1`, () => {
+describe(`Async / await - Nivell 1 Exercici 1`, () => {
     test(`getEmployee`, async () => {
         const id = 1;
         const employee = (await getEmployee(id)).name;
@@ -49,7 +49,7 @@ describe(`Async / await Nivell 1 - Exercici 1`, () => {
     })
 });
 
-describe(`Async / await Nivell 2 - Exercici 1`, () => {
+describe(`Async / await - Nivell 2 Exercici 1`, () => {
 
     'use strict';
     jest.useFakeTimers();  // Cal posar fake timers per no anar sumant segons d'espera a cada test que provi funcions que continguin un timer
@@ -109,7 +109,7 @@ describe(`Async / Await Nivell 2 Exercici 1 amb Jest Fake Timers`, () => {
 
 // TASCA 6 NIVELL 3
 
-describe (`Async / Await Nivell 1`, () => {
+describe (`Async / Await - Nivell 1 amb Mock de JSON`, () => {
     test(`employeesAndSalariesFromMockedJSON`, async () => {
         const id = 1;
         const employee = (await getEmployee(id));
@@ -120,7 +120,7 @@ describe (`Async / Await Nivell 1`, () => {
 })
 
 
-describe(`Async / Await Nivells 2 i 3 -> Errors de funcionament`, () => {
+describe(`Async / Await - Nivells 2 i 3: Errors de funcionament`, () => {
 
     test(`Errors tasca 1.4`, async () => {
 

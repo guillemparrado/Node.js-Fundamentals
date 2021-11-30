@@ -39,7 +39,7 @@ describe(`Mock - Classes & Arrow Functions - Nivell 2 Exercici 2`, () => {
 })
 
 
-describe(`Classes & Arrow Functions Nivell 3 - Exercici 1`, () => {
+describe(`Classes & Arrow Functions - Nivell 3 Exercici 1`, () => {
     test(`creaVehicle`, () => {
 
         // Per funcions que s'espera que llencin error cal incloure-les dins d'un callback perquè jest les pugui caçar
