@@ -1,5 +1,10 @@
 # node_bootcamp_sprint1
 
+## Descripció (Tasca 1.6)
+Aquest repositori conté les solucions del primer sprint del bootcamp de backend Node de l'IT Academy de Barcelona Activa. Ha estat resolt per Guillem Parrado.
+
+Cada fitxer es pot executar de manera individual (`node  fitxer`) i els tests es poden correr amb la comanda `npm test`.
+
 ## Tasca 1.5, Nivell 3
 
 ### Instruccions per a l'execució
@@ -13,6 +18,3 @@ Pel que fa a les funcions de cada punt, també he creat la funció `exercicisNiv
 Pel que fa als fitxers resultants, aquests s'han anomenat afegint una extensió al fitxer original que denoti els mètodes que se li han aplicat: d'aquesta manera, es pot comprovar com cada funció fa allò que se li demana. Així, a partir de l'arxiu `fileTest.txt`, la funció `ex1` genera els arxius `fileTest.txt.hex` i `fileTest.txt.base64`, `ex2` elimina aquests fitxers i genera `fileTest.txt.hex.aes-192-cbc` i `fileTest.txt.base64.aes-192-cbc` i `ex3` usa els fitxers produits per `ex2`, els desencripta i decodifica i els desa afegint l'extensió `.decrypted_decoded` a tota la cadena d'extensions anteriors.
 
 _Aclariment_: entre els fitxers produits pel nivell 3 hi trobareu l'arxiu `fileTest.txt.gz`, però aquest és un fitxer de sortida de l'exercici 1 del **nivell 2** i no té relació amb la resta d'arxius del nivell 3.
-
-## Tasca 1.6: Testing
-
