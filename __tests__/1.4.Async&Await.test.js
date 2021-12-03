@@ -47,6 +47,7 @@ describe(`Async / await - Nivell 1 Exercici 1`, () => {
         const salary = (await getSalary(employee));
         expect(salary).toBe(4000);
     })
+
 });
 
 describe(`Async / await - Nivell 2 Exercici 1`, () => {
@@ -67,8 +68,6 @@ describe(`Async / await - Nivell 2 Exercici 1`, () => {
 
         // Test timer
         const logMessage = `Hello after 2 seconds!`;
-
-        // Si ho faig amb async/await el test arriba a timeout, no es resol mai, per això ho faig amb then. No entenc pq té aquest comportament amb async.
 
         wait2SecondsAndPrint().then(
             () => {
@@ -92,7 +91,7 @@ describe(`Async / await - Nivell 2 Exercici 1`, () => {
         expect(console.log).not.toHaveBeenCalledWith(logMessage);
 
         // Com que fem servir fake timers, cal correr el timer perquè completi la promesa de wait2Seconds
-        /* OPCIONS per avançar timer: */
+        /* Opcions per avançar timer: */
         jest.runAllTimers();
         //jest.advanceTimersByTime(2000);
         //jest.runOnlyPendingTimers();
@@ -101,10 +100,6 @@ describe(`Async / await - Nivell 2 Exercici 1`, () => {
         expect.assertions(3);
     });
 });
-
-describe(`Async / Await Nivell 2 Exercici 1 amb Jest Fake Timers`, () => {
-    //TODO: Ja ho he fet d'entrada amb Fake timers, què hauria de fer amb aquest segon punt?
-})
 
 
 // TASCA 6 NIVELL 3
@@ -122,22 +117,57 @@ describe (`Async / Await - Nivell 1 amb Mock de JSON`, () => {
 
 describe(`Async / Await - Nivells 2 i 3: Errors de funcionament`, () => {
 
-    test(`Errors tasca 1.4`, async () => {
-
-        // Diferents opcions d'estil
-        // Opció 1:
-        expect.assertions(3);
-        await getEmployee(4).catch(e => {
-            expect(e.message).toEqual(`Employee with id == 4 doesn't exist`);
-        })
-        // Opció 2:
-        await expect(getSalary(null)).rejects.toEqual(new Error(`You must pass a valid employee to the function getSalary(employee)`));
-        const employee = getEmployee(1);
-        employee.id = 4;
-        await expect(getSalary(employee)).rejects.toEqual(new Error(`Salary with id == 4 doesn't exist`));
-
-        // També es podria fer amb DoneCallback com he fet amb el test del timer, però llavors caldria una sola asserció perquè done() acaba el test.
-
-        // Nivell 2 no llença errors, no se quins li podria posar (?)
+    test(`getEmployeeErrors`, async () => {
+        const id = 5;
+        try {
+            const employee = (await getEmployee(id)).name;
+        } catch (e) {
+            expect(e.message).toBe(
+                `Employee with id == ${id} doesn't exist`);
+        }
+        expect.assertions(1);
     })
-})
+
+
+    test(`getSalaryErrors`, async () => {
+
+        async function expectError(employee, errorMessage){
+            try{
+                const salary = (await getSalary(employee));
+            } catch (e) {
+                expect(e.message).toBe(errorMessage);
+            }
+        }
+
+        async function expectEmployeeError(employee) {
+            await expectError(employee, "You must pass a valid employee to the function getSalary(employee)");
+        }
+
+        await expectEmployeeError(null);
+        await expectEmployeeError({"someProperty": 123});
+        await expectEmployeeError({ "id": "1" });
+        await expectError({ "id": 5 },
+            `Salary with id == 5 doesn't exist`
+        );
+
+        expect.assertions(4);
+    })
+
+    // ALTRES ESTILS D'IMPLEMENTACIÓ:
+    // // 1) FENT SERVIR PROMISE CATCH
+    // expect.assertions(1);
+    // await getEmployee(4).catch(e => {
+    //     expect(e.message).toEqual(`Employee with id == 4 doesn't exist`);
+    // })
+
+    // // 2) FENT SERVIR MÈTODE REJECTS DE JEST:
+    // expect.assertions(2);
+    // await expect(getSalary(null)).rejects.toEqual(new Error(`You must pass a valid employee to the function getSalary(employee)`));
+    // const employee = getEmployee(1);
+    // employee.id = 4;
+    // await expect(getSalary(employee)).rejects.toEqual(new Error(`Salary with id == 4 doesn't exist`));
+
+    // // 3) FENT SERVIR DONECALLBACK COM HE FET AMB EL TEST DEL TIMER, però llavors caldria una sola asserció perquè done() acaba el test.
+
+    // DUBTE: Nivell 2 no llença errors, no se quins li podria posar (?)
+});

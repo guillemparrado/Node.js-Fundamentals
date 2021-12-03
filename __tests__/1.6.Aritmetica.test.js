@@ -1,5 +1,5 @@
 
-// TASCA 6 NIVELL 1
+// TASCA 1.6 NIVELL 1
 const {sumar, restar, multiplicar, dividir} = require('../app/1.6.Aritmetica');
 
 describe(`Aritmètica`, () => {

@@ -4,7 +4,7 @@
 const {Persona, creaVehicle} = require('../app/1.2.Classes&ArrowFunctions');
 
 describe(`Mock - Classes & Arrow Functions - Nivell 2 Exercici 2`, () => {
-    test(`Persona's function mocks`, () => {
+    test(`Persona Class's constructor and function mocks`, () => {
 
         /*
         FONTS:
@@ -13,7 +13,7 @@ describe(`Mock - Classes & Arrow Functions - Nivell 2 Exercici 2`, () => {
         - https://medium.com/@rickhanlonii/understanding-jest-mocks-f0046c68e53c
          */
 
-        // Només es pot susbtituïr el constructor d'una classeamb el d'una altra classe + necessito poder crear un objecte de la classe Persona per cridar dirNom == cal que nou constructor sigui funcional. La solució per la que he optat ha estat estendre la classe per incorporar la funció mock a la crida del nou constructor.
+        // Només es pot susbtituïr el constructor d'una classe amb el d'una altra classe + necessito poder crear un objecte de la classe Persona per cridar dirNom == cal que nou constructor sigui funcional. La solució per la que he optat ha estat estendre la classe per incorporar la funció mock a la crida del nou constructor.
 
         class MockedPersona extends Persona {
             static mockedConstructor = jest.fn();
@@ -31,7 +31,9 @@ describe(`Mock - Classes & Arrow Functions - Nivell 2 Exercici 2`, () => {
         const mockedPersona2 = new MockedPersona();
         mockedPersona2.dirNom();
 
-        expect(MockedPersona.mockedConstructor.mock.calls.length).toBe(2);
+        const mockedPersona3 = new MockedPersona();
+
+        expect(MockedPersona.mockedConstructor.mock.calls.length).toBe(3);
         expect(mockedPersona1.dirNom.mock.calls.length).toBe(2);
         expect(mockedPersona2.dirNom.mock.calls.length).toBe(1);
 
