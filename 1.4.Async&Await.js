@@ -75,25 +75,17 @@ const wait2Seconds = () =>
         try {
             setTimeout(
                 () => {
-                    resolve(`Hello after 2 seconds!`);
+                    console.log(`Hello after 2 seconds!`);
+                    resolve();
                     },
                 2000);
         } catch (e) {
-            reject(e);
+            console.log(`Error: ${e.message}`);
+            reject();
         }
     }
 );
 
-async function wait2SecondsAndPrint(){
-    let message;
-    try {
-        message = await wait2Seconds();
-    } catch (e) {
-        message = `Error: ${e.message}`;
-    }
-    console.log(message);
-}
-
-wait2SecondsAndPrint();
+wait2Seconds();
 
 
