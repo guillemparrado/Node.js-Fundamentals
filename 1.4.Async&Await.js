@@ -73,7 +73,11 @@ for (let id = 1; id < 4 ; id++) {
 const wait2Seconds = () =>
     new Promise(async (resolve, reject) => {
         try {
-            setTimeout(resolve, 2000);
+            setTimeout(
+                () => {
+                    resolve(`Hello after 2 seconds!`);
+                    },
+                2000);
         } catch (e) {
             reject(e);
         }
@@ -81,12 +85,13 @@ const wait2Seconds = () =>
 );
 
 async function wait2SecondsAndPrint(){
+    let message;
     try {
-        await wait2Seconds();
-        console.log("Hello after 2 seconds!");
+        message = await wait2Seconds();
     } catch (e) {
-        console.log(`Error: ${e.message}`);
+        message = `Error: ${e.message}`;
     }
+    console.log(message);
 }
 
 wait2SecondsAndPrint();
