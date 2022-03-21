@@ -87,7 +87,7 @@ compress(filename);
 const printUserHomeContents = () => {
     const cp = require('child_process');
     cp.exec('dir', {
-        cwd: `C:\\Users\\guillem`
+        cwd: require('os').homedir()
     }, function(err, stdout, stderr) {
         if(err) {
             console.log(`Error : ${err.message}`);
