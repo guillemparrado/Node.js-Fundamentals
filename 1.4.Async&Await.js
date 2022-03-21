@@ -73,19 +73,15 @@ for (let id = 1; id < 4 ; id++) {
 const wait2Seconds = () =>
     new Promise(async (resolve, reject) => {
         try {
-            setTimeout(
-                () => {
-                    console.log(`Hello after 2 seconds!`);
-                    resolve();
-                    },
-                2000);
+            setTimeout(resolve, 2000);
         } catch (e) {
-            console.log(`Error: ${e.message}`);
-            reject();
+            reject(e);
         }
     }
 );
 
-wait2Seconds();
+wait2Seconds()
+    .then(() => console.log(`Hello after 2 seconds!`))
+    .catch(e => console.log(`Error: ${e.message}`))
 
 
