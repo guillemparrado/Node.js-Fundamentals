@@ -1,6 +1,16 @@
 {
   "name": "node_bootcamp_sprint1",
   "version": "1.0.0",
-  "dependencies": {
+  "description": "el projecte conté les solucions del primer sprint del bootcamp de backend Node de l'IT Academy de Barcelona Activa.",
+  "author": {
+    "name": "Guillem Parrado",
+    "email": "guillempado@gmail.com",
+    "url": "https://github.com/guillempado"
+  },
+  "devDependencies": {
+    "jest": "^27.3.1"
+  },
+  "scripts": {
+    "test": "jest"
   }
 }

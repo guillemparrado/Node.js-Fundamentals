@@ -1,5 +1,10 @@
 # node_bootcamp_sprint1
 
+## Descripció (Tasca 1.6)
+Aquest repositori conté les solucions del primer sprint del bootcamp de backend Node de l'IT Academy de Barcelona Activa. Ha estat resolt per Guillem Parrado.
+
+Cada fitxer es pot executar de manera individual (`node  fitxer`) i els tests es poden correr amb la comanda `npm test`.
+
 ## Tasca 1.5, Nivell 3
 
 ### Instruccions per a l'execució

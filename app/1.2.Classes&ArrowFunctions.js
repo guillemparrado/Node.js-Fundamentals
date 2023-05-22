@@ -8,7 +8,7 @@ console.log(
 // NIVELL 2.1
 const mentor = "Omar";
 
-const func = mentor => {return {mentor}};
+const func = mentor => {return {mentor}}
 
 console.log(func(mentor));
 
@@ -33,7 +33,7 @@ class Persona {
 }
 
 const p = new Persona("Guillem");
-p.dirNom();
+p.dirNom()
 
 
 // NIVELL 3
@@ -72,4 +72,9 @@ for (const vehicle of vehicles) {
     } catch (e) {
         console.log(`Error: ${e.message}`);
     }
+}
+
+module.exports = {
+    Persona,
+    creaVehicle
 }

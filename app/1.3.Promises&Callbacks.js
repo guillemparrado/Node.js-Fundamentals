@@ -125,7 +125,7 @@ getEmployee(id)
         let employee = res;
         getSalary(employee)
             .then(res => {
-                console.log(`The salary of the employee "${employee.name}" is $${res}`);
+                console.log(`Tasca 1.3 nivell 2 exercici 3: The salary of the employee "${employee.name}" is $${res}`);
             })
             .catch(e => console.log(`Error: ${e.message}`));
     })

@@ -1,27 +1,9 @@
 
 // NIVELL 1.1
 
-let employees = [{
-    id: 1,
-    name: 'Linux Torvalds'
-}, {
-    id: 2,
-    name: 'Bill Gates'
-},{
-    id: 3,
-    name: 'Jeff Bezos'
-}];
+const fs = require('fs');
 
-let salaries = [{
-    id: 1,
-    salary: 4000
-}, {
-    id: 2,
-    salary: 1000
-}, {
-    id: 3,
-    salary: 2000
-}];
+const {employees, salaries } = JSON.parse(String(fs.readFileSync(`./employeesAndSalaries.json`)));
 
 const getEmployee = (id) => {
     return new Promise((resolve, reject) => {
@@ -84,4 +66,7 @@ wait2Seconds()
     .then(() => console.log(`Hello after 2 seconds!`))
     .catch(e => console.log(`Error: ${e.message}`))
 
+module.exports = {
+    getEmployee, getSalary, wait2SecondsAndPrint
+}
 
