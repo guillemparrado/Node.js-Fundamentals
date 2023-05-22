@@ -1,5 +1,8 @@
 
 //NIVELL 1.1
+/**
+ * Crea una funció que imprimeixi recursivament un missatge per la consola amb demores d'un segon.
+ */
 
 const spam = message => {
     setTimeout(
@@ -14,6 +17,10 @@ const spam = message => {
 spam("Spam");
 
 //NIVELL 1.2
+
+/**
+ * Crea una funció que, en executar-la, escrigui una frase en un fitxer.
+ */
 
 const fs = require('fs');
 
@@ -34,6 +41,10 @@ writeToFile(message, filename).then(res => console.log(res));
 
 
 //NIVELL 1.3
+
+/**
+ * Crea una altra funció que mostri per consola el contingut del fitxer de l'exercici anterior.
+ */
 
 const readFromFile = (filename, encoding = 'utf8') => {
     return new Promise((resolve, reject) => {
@@ -59,6 +70,10 @@ readFromFileAndPrint(filename);
 
 //NIVELL 2.1
 
+/**
+ * Crea una funció que comprimeixi el fitxer del nivell 1.1.
+ */
+
 const compress = filename => {
     const { createGzip } = require('zlib');
     const { pipeline } = require('stream');
@@ -83,6 +98,9 @@ compress(filename);
 
 
 //NIVELL 2.2
+/**
+ * Crea una funció que llisti per la consola el contingut del directori d'usuari/ària de l'ordinador utilizant Node Child Processes.
+ */
 
 const printUserHomeContents = () => {
     const cp = require('child_process');
@@ -102,6 +120,12 @@ const printUserHomeContents = () => {
 printUserHomeContents();
 
 //NIVELL 3
+
+/**
+ * 1. Crea una funció que creï dos fitxers codificats en hexadecimal i en base64 respectivament, a partir del fitxer del nivell 1.
+ * 2. Crea una funció que guardi els fitxers del punt anterior, ara encriptats amb l'algorisme aes-192-cbc, i esborri els fitxers inicials
+ * 3. Crea una altra funció que desencripti i descodifiqui els fitxers de l'apartat anterior tornant a generar una còpia de l'inicial
+ */
 
 /*
     FONTS:
@@ -154,7 +178,6 @@ function demo() {
 }
 
 
-
 // SEGONA PART: Incorporo la funcionalitat de fitxers i d'async/await i resolc els punts de l'enunciat
 
 const crypto = require('crypto');
@@ -173,7 +196,10 @@ async function exercicisNivell3(
     await ex3(filename, encodings, password, iv);
 }
 
-// EXERCICI 3.1: Crea una funció que creï dos fitxers codificats en hexadecimal i en base64 respectivament, a partir del fitxer del nivell 1
+// EXERCICI 3.1
+/**
+ * Crea una funció que creï dos fitxers codificats en hexadecimal i en base64 respectivament, a partir del fitxer del nivell 1
+ */
 
 async function ex1(filename, encodings) {
     for (const encoding of encodings) {
@@ -183,7 +209,10 @@ async function ex1(filename, encodings) {
     }
 }
 
-// EXERCICI 3.2: Crea una funció que guardi els fitxers del punt anterior, ara encriptats amb l'algorisme aes-192-cbc, i esborri els fitxers inicials
+// EXERCICI 3.2
+/**
+ * Crea una funció que guardi els fitxers del punt anterior, ara encriptats amb l'algorisme aes-192-cbc, i esborri els fitxers inicials
+ */
 
 async function ex2(filename, encodings, password) {
     const crypto = require('crypto');
@@ -205,7 +234,10 @@ async function ex2(filename, encodings, password) {
     return iv;
 }
 
-// EXERCICI 3.3: Crea una altra funció que desencripti i descodifiqui els fitxers de l'apartat anterior tornant a generar una còpia de l'inicial
+// EXERCICI 3.3
+/**
+ * Crea una altra funció que desencripti i descodifiqui els fitxers de l'apartat anterior tornant a generar una còpia de l'inicial
+ */
 
 async function ex3(filename, encodings, password, iv, algorithm = 'aes-192-cbc') {
     const key = crypto.scryptSync(password, 'salt', 24);  // Les claus de 192 son de 24 caràcters, les de 256 son de 32
@@ -217,4 +249,3 @@ async function ex3(filename, encodings, password, iv, algorithm = 'aes-192-cbc')
         await writeToFile(decryptedDecodedData, `${filename}.${encoding}.${algorithm}.decrypted_decoded`);
     }
 }
-

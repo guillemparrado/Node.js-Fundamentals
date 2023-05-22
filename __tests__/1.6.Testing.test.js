@@ -1,6 +1,6 @@
 
 // TASCA 1.6 NIVELL 1
-const {sumar, restar, multiplicar, dividir} = require('../app/1.6.Aritmetica');
+const {sumar, restar, multiplicar, dividir} = require('../app/1.6.Testing');
 
 describe(`Aritmètica`, () => {
     test(`Suma 1 + 2 i retorna 3`, () => {

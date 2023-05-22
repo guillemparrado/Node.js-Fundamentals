@@ -1,11 +1,17 @@
 
 // NIVELL 1
+/**
+ * Mostra per la consola el resultat d'una arrow function autoinvocable que sumi dos nombres.
+ */
 const num1 = 5, num2 = 7;
 console.log(
     ((num1, num2) => num1 + num2)(num1, num2)
 )
 
 // NIVELL 2.1
+/**
+ * Crea una arrow function que, rebent un paràmetre, retorni un objecte amb un atribut que tingui com a valor el paràmetre rebut.
+ */
 const mentor = "Omar";
 
 const func = mentor => {return {mentor}}
@@ -13,6 +19,9 @@ const func = mentor => {return {mentor}}
 console.log(func(mentor));
 
 // NIVELL 2.2
+/**
+ * Crea una classe "Persona" que rebi un paràmetre 'nom' en ser instanciada. La classe inclourà un mètode dirNom que imprimeixi per consola el paràmetre 'nom'. Invoca el mètode dirNom des de fora de la classe.
+ */
 
 class Persona {
     constructor(nom) {
@@ -37,6 +46,10 @@ p.dirNom()
 
 
 // NIVELL 3
+/**
+ * Escriu una function creadora d'objectes que faci instàncies d'una classe abstracta. Invoca-la amb diferents definicions.
+ */
+
 // Fonts: https://stackoverflow.com/a/30560792, https://stackoverflow.com/a/21220964
 
 /**

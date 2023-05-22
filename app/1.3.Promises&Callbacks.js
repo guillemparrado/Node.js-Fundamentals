@@ -1,5 +1,8 @@
 
 //NIVELL 1.1
+/**
+ * Crea una funció que retorni una Promise que invoqui la funció resolve() o reject() que rep. Invoca-la passant-li les dues funcions de manera que imprimeixin un missatge diferent depenent de si la Promise es resol o no.
+ */
 
 function makePromise(){
     return new Promise((resolve, reject) => {
@@ -25,6 +28,9 @@ makeAndCallPromise();
 
 
 //NIVELL 1.2
+/**
+ * Crea una arrow function que rebi un paràmetre i una funció callback i li passi a la funció un missatge o un altre (que s'imprimirà per consola) en funció del paràmetre rebut.
+ */
 
 const arrowFunc = (arg1, callback) => {
     const opcions = {
@@ -57,6 +63,9 @@ for (const pregunta of preguntes) {
 
 
 //NIVELL 2.1
+/**
+ * Donats els objectes employees i salaries, crea una arrow function getEmployee() que retorni una Promise efectuant la cerca en l'objecte pel seu id. 
+ */
 let employees = [{
     id: 1,
     name: 'Linux Torvalds'
@@ -101,6 +110,9 @@ getEmployee(4).then(res => console.log(res))
 
 
 //NIVELL 2.2
+/**
+ * Crea una altra arrow function getSalary() similar a l'anterior que rebi com a paràmetre un objecte employee i retorni el seu salari.
+ */
 
 const getSalary = (employee) => {
     return new Promise((resolve, reject) => {
@@ -115,8 +127,11 @@ const getSalary = (employee) => {
 }
 
 
-//NIVELL 2.3
-
+//NIVELL 2.3, NIVELL 3
+/**
+ * Invoca la primera funció getEmployee() i després getSalary() niant l'execució de les dues promises de manera que es retorni per la consola el nom de l'empleat/da i el seu salari.
+ * Fixa un element catch a la invocació del nivell anterior que capturi qualsevol error i el mostri per la consola.
+ */
 
 const id = 1;
 

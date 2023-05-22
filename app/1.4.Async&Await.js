@@ -1,5 +1,8 @@
 
 // NIVELL 1.1
+/**
+ * Crea una funció asíncrona que rebi un id d'empleat/da i imprimeixi per pantalla el nom de l'empleat/da i el seu salari, usant les funcions getEmployee() i getSalary() que has definit a la tasca anterior.
+ */
 
 const fs = require('fs');
 
@@ -34,6 +37,9 @@ const getSalary = (employee) => {
 
 
 // NIVELL 1.2
+/**
+ * Crea una nova funció asíncrona que cridi a una altra que retorni una Promise que efectuï la seva funció resolve() després de 2 segons de la seva invocació.
+ */
 
 async function printEmployeeDetails(id){
     try {
@@ -51,7 +57,9 @@ for (let id = 1; id < 4 ; id++) {
 
 
 // NIVELL 2
-
+/**
+ * Crea una funció asíncrona que esperi dos segons després de la seva invocació. Crea una altra funció que la faci servir per fer un console log per pantalla després de dos segons.
+ */
 const wait2Seconds = () =>
     new Promise(async (resolve, reject) => {
         try {
@@ -62,9 +70,12 @@ const wait2Seconds = () =>
     }
 );
 
-wait2Seconds()
-    .then(() => console.log(`Hello after 2 seconds!`))
-    .catch(e => console.log(`Error: ${e.message}`))
+const wait2SecondsAndPrint = async () => {
+    await wait2Seconds()
+        .then(() => console.log(`Hello after 2 seconds!`))
+        .catch(e => console.log(`Error: ${e.message}`))
+}
+
 
 module.exports = {
     getEmployee, getSalary, wait2SecondsAndPrint
